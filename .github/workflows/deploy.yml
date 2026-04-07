@@ -30,6 +30,8 @@ jobs:
 
       - name: Build
         run: cd site && node build.mjs
+        env:
+          BASE_PATH: /claude-code-course
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

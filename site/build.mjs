@@ -12,6 +12,7 @@ const COURSE_DIR = join(ROOT, '..', 'course');
 const SLIDES_DIR = join(ROOT, '..', 'slides');
 const STATIC_DIR = join(ROOT, 'static');
 const DIST = join(ROOT, 'dist');
+const BASE = process.env.BASE_PATH || ''; // e.g. '/claude-code-course'
 
 const SECTIONS = [
   { dir: '01_beginner', name: '初級', subtitle: 'はじめてのClaude Code', badge: 'beginner', desc: '安心して基本操作をマスター' },
@@ -139,12 +140,13 @@ function baseHtml({ title, body, sidebar, breadcrumb = '', meta = '', articleNav
   const contentInner = toc
     ? `<div class="article-body"><div class="article-content">${body}${articleNav}</div>${toc}</div>`
     : `${body}${articleNav}`;
-  return `<!DOCTYPE html>
+  const raw = `<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${title} — Claude Code マスターコース</title>
+  <meta name="base-path" content="${BASE}">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -170,6 +172,11 @@ function baseHtml({ title, body, sidebar, breadcrumb = '', meta = '', articleNav
   <script src="/js/main.js"></script>
 </body>
 </html>`;
+  // Apply BASE to all absolute paths
+  if (BASE) {
+    return raw.replace(/href="\//g, `href="${BASE}/`).replace(/src="\//g, `src="${BASE}/`);
+  }
+  return raw;
 }
 
 // --- Build article pages ---

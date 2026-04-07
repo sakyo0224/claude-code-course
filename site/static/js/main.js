@@ -1,4 +1,5 @@
 // Claude Code マスターコース — UI Script
+const BASE = document.querySelector('meta[name="base-path"]')?.content || '';
 
 document.addEventListener('DOMContentLoaded', () => {
   initSidebar();
@@ -83,7 +84,7 @@ async function initSearch() {
   let docs = [];
   let searchIndex = null;
   try {
-    const res = await fetch('/search-index.json');
+    const res = await fetch(`${BASE}/search-index.json`);
     docs = await res.json();
 
     // Build MiniSearch instance
@@ -122,7 +123,7 @@ async function initSearch() {
     resultsList.innerHTML = results.map((r, i) => {
       const snippet = r.summary || r.goals || '';
       return `
-        <a href="/${r.id}" class="search-result-card">
+        <a href="${BASE}/${r.id}" class="search-result-card">
           <span class="search-result-rank">${i + 1}</span>
           <div class="search-result-body">
             <div class="search-result-title">${r.title}</div>
