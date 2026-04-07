@@ -1,0 +1,14 @@
+{
+  "name": "claude-code-course",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "npx serve dist"
+  },
+  "dependencies": {
+    "highlight.js": "^11.9.0",
+    "marked": "^12.0.0",
+    "minisearch": "^7.2.0"
+  }
+}
