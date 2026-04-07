@@ -145,9 +145,10 @@ function baseHtml({ title, body, sidebar, breadcrumb = '', meta = '', articleNav
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="__BASE_PLACEHOLDER__">
   <title>${title} — Claude Code マスターコース</title>
   <meta name="base-path" content="${BASE}">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="header">
@@ -169,14 +170,15 @@ function baseHtml({ title, body, sidebar, breadcrumb = '', meta = '', articleNav
     </main>
   </div>
   <footer class="footer">Claude Code マスターコース &copy; 2026</footer>
-  <script src="/js/main.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>`;
-  // Apply BASE to all absolute paths
-  if (BASE) {
-    return raw.replace(/href="\//g, `href="${BASE}/`).replace(/src="\//g, `src="${BASE}/`);
-  }
-  return raw;
+  const baseHref = BASE ? '/' + BASE.replace(/^\//, '') + '/' : '/';
+  // Convert absolute paths to base-relative, then restore <base> tag
+  return raw
+    .replace(/href="\//g, 'href="')
+    .replace(/src="\//g, 'src="')
+    .replace('__BASE_PLACEHOLDER__', baseHref);
 }
 
 // --- Build article pages ---
